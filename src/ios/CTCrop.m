@@ -35,18 +35,19 @@
     PECropViewController *cropController = [[PECropViewController alloc] init];
     cropController.delegate = self;
     cropController.image = image;
-    
-    CGFloat width = image.size.width;
+     CGFloat width = image.size.width;
     CGFloat height = image.size.height;
-    CGFloat length = MIN(width, height);
+	
+
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
     cropController.keepingCropAspectRatio = YES;
+    // TODO parameterize this
+    cropController.imageCropRect = CGRectMake(10,
+                                          10,
+                                         width-20,
+                                          (width*15.0f/32.0f)-20);
     
-    cropController.imageCropRect = CGRectMake((width - length) / 2,
-                                              (height - length) / 2,
-                                              length,
-                                              length);
     
     self.callbackId = command.callbackId;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:cropController];
