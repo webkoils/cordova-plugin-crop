@@ -2,7 +2,7 @@
 var crop = module.exports = function cropImage (success, fail, image, options) {
 	options = options || {};
 	options.quality = options.quality || 100;
-	options.ratio = options.ratio || 1;
+	options.ratio = options.ratio || 9.0/16.0;
 
   return cordova.exec(success, fail, 'CropPlugin', 'cropImage', [image, options])
 }

@@ -14,9 +14,9 @@
     UIImage *image;
     NSString *imagePath = [command.arguments objectAtIndex:0];
     NSDictionary *options = [command.arguments objectAtIndex:1];
-    
+
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
-	self.ratio = options[@"ratio"] ? [options[@"ratio"] floatValue] : 15.0f/32.0f;;
+	self.ratio = options[@"ratio"] ? [options[@"ratio"] floatValue] : 15.0f/32.0f;
     NSString *filePrefix = @"file://";
     
     if ([imagePath hasPrefix:filePrefix]) {
@@ -39,16 +39,24 @@
     cropController.image = image;
      CGFloat width = image.size.width;
     CGFloat height = image.size.height;
-	
+	CGFloat length = MIN(width,height);
 
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
     cropController.keepingCropAspectRatio = YES;
     // TODO parameterize this
-    cropController.imageCropRect = CGRectMake(	10,
-                                          		10,
-                                         		width-20,
-                                          		(width*self.ratio)-20);
+	if(length == width) {
+ 		cropController.imageCropRect = CGRectMake(	(width-length)/2,
+                                          		(height-length*self.ratio)/2,
+                                         		length-20,
+                                          		(length*self.ratio)-20);
+	} else {
+		 cropController.imageCropRect = CGRectMake(	(width-length/self.ratio)/2,
+                                          		(height-length)/2,
+                                         		(length/self.ratio)-20,
+                                          		length-20);
+	}
+   
     
     
     self.callbackId = command.callbackId;
